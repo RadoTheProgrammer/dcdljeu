@@ -146,38 +146,37 @@ def demo(times="inf"):
 
     if times=="inf":times=99999
     n=0
-    while n<times:
+    while True:
+        try:
+        #try:
+            tirage=input("\nLe tirage de nombres : ")
+            if not tirage:break
+            tirage=list(map(int,tirage.split(" ")))
+            #print("W")
+            #print(repr(tirage))
+        except Exception:pass
+        else:break
+    if not tirage:
+        
+        tirage,nat=generer(6)
+        print("Tirage de nombres: "+str(" ".join(map(str,tirage))),"Recherche du nombre: "+str(nat))
+        time.sleep(1)
+    else:
         while True:
             try:
-            #try:
-                tirage=input("\nLe tirage de nombres : ")
-                if not tirage:break
-                tirage=list(map(int,tirage.split(" ")))
-                #print("W")
-                #print(repr(tirage))
+                tirage.remove("")
+            except:break
+        while True:
+            try:
+                nat=int(input("Recherche du nombre : "))
             except Exception:pass
             else:break
-        if not tirage:
-            
-            tirage,nat=generer(6)
-            print("Tirage de nombres: "+str(" ".join(map(str,tirage))),"Recherche du nombre: "+str(nat))
-            time.sleep(1)
-        else:
-            while True:
-                try:
-                    tirage.remove("")
-                except:break
-            while True:
-                try:
-                    nat=int(input("Recherche du nombre : "))
-                except Exception:pass
-                else:break
-        tt=time.time()
-        print("Solveur en cours...")
-        d=solve(tirage,nat)
-        print("\nFini en "+str(round(time.time()-tt,3))+" seconde(s), il y a "+str(len(d[0]))+" solutions pour trouver "+" et ".join(map(str,d[1]))+(" (Le Compte est bon)" if d[1]==[nat] else "")+".")
-        time.sleep(1)
-        n+=1
+    tt=time.time()
+    print("Solveur en cours...")
+    d=solve(tirage,nat)
+    print("\nFini en "+str(round(time.time()-tt,3))+" seconde(s), il y a "+str(len(d[0]))+" solutions pour trouver "+" et ".join(map(str,d[1]))+(" (Le Compte est bon)" if d[1]==[nat] else "")+".")
+    time.sleep(1)
+    n+=1
         #if not while_true:break
 def _demo():
         while True:

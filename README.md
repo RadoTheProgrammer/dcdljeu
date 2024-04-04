@@ -26,3 +26,12 @@ ceb.solve([9, 8, 25, 100, 5, 4],254)
 retourne les solutions et les nombres trouvées.
 
 ## Le Mot le plus long
+
+
+Cela consiste à trouver Le Mot Le Plus Long à partir de 10 lettres.
+
+```python
+
+from dcdljeu import mlpl
+mlpl.demo()
+```

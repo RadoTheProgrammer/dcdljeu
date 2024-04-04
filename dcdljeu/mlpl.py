@@ -96,22 +96,13 @@ def solve(lettres,n=10,Printer=True):
         all_lettres=new_lettres
     print("WW")
 def demo(n_solver=2,alternes_mlpl_dcdl=False):
-    while True:
-        lettres=input("Lettres ?")
-        if not lettres:
-            lettres=generer()
-            print("Lettres:"+lettres)
-            time.sleep(1)
-        try:
-            d=solve(lettres,n_solver)
-        except KeyboardInterrupt:
-            print("KeyboardInterrupt")
-        else:
-            print("Fini")
-        if alternes_mlpl_dcdl:
-            ceb2.demo(1)
-        #except NameError or UnboundLocalError:
-        #    pass
+    lettres=input("Lettres ?")
+    if not lettres:
+        lettres=generer()
+        print("Lettres:"+lettres)
+        time.sleep(1)
+    d=solve(lettres,n_solver)
+    
 def generer(nbr_de_voyelles=5,n=10,solver=False,n_solver=2,Printer_solver=True):
     if nbr_de_voyelles=="random":
         nbr_de_voyelles=random.randrange(3,7)

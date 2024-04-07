@@ -27,7 +27,6 @@ retourne les solutions et les nombres trouvées.
 
 ## Le Mot le plus long
 
-
 Cela consiste à trouver Le Mot Le Plus Long à partir de 10 lettres.
 
 ```python
@@ -35,3 +34,7 @@ Cela consiste à trouver Le Mot Le Plus Long à partir de 10 lettres.
 from dcdljeu import mlpl
 mlpl.demo()
 ```
+
+## Projets sur scratch
+
+Jetez aussi un coup d'oeil à mes projets scratch https://scratch.mit.edu/projects/529613029/

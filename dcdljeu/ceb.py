@@ -25,6 +25,7 @@ def calculate(cn1,op,cn2):
             return 0
     else:
         raise ValueError("Invalid op :"+str(op))
+    
 def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,avoid_doubles=True,shortest_sol=True):
     try:
         tt=time.time()
@@ -99,6 +100,7 @@ def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,a
         raise err
         print("KeyboardInterrupt")
         return (solutions,nts)
+    
 def generer(n=6,solver=False,printer_solver=True,return_one_solution_solver=False,resoluble=False):
     n25=random.randrange(100)<71
     nondouble=random.randrange(100)<52
@@ -142,6 +144,7 @@ def generer(n=6,solver=False,printer_solver=True,return_one_solution_solver=Fals
         tentative+=1
         if tentative/10==int(tentative/10):
             pass
+        
 def demo(times="inf"):
 
     if times=="inf":times=99999
@@ -177,39 +180,9 @@ def demo(times="inf"):
     print("\nFini en "+str(round(time.time()-tt,3))+" seconde(s), il y a "+str(len(d[0]))+" solutions pour trouver "+" et ".join(map(str,d[1]))+(" (Le Compte est bon)" if d[1]==[nat] else "")+".")
     time.sleep(1)
     n+=1
-        #if not while_true:break
-def _demo():
-        while True:
-            try:
-            #try:
-                tirage=input("\nLe tirage de nombres : ")
-                if not tirage:break
-                tirage=list(map(int,tirage.split(" ")))
-                #print("W")
-                #print(repr(tirage))
-            except Exception:pass
-            else:break
-        if not tirage:
-            
-            tirage,nat=generer(6)
-            print("Tirage de nombres: "+str(" ".join(map(str,tirage))),"Recherche du nombre: "+str(nat))
-            time.sleep(1)
-        else:
-            while True:
-                try:
-                    tirage.remove("")
-                except:break
-            while True:
-                try:
-                    nat=int(input("Recherche du nombre : "))
-                except Exception:pass
-                else:break
-        tt=time.time()
-        print("Solveur en cours...")
-        d=solve(tirage,nat)
-        print("\nFini en "+str(round(time.time()-tt,3))+" seconde(s), il y a "+str(len(d[0]))+" solutions pour trouver "+" et ".join(map(str,d[1]))+(" (Le Compte est bon)" if d[1]==[nat] else "")+".")
-        time.sleep(1)
-def ceb_to_bytes(ceb,file=None):
+
+
+def to_scratch(ceb,file=None):
     bceb=b""
     pair=[]
     nbr_pairs=0
@@ -251,7 +224,7 @@ def ceb_to_bytes(ceb,file=None):
         code=cc[0]*20+cc[1]*5+cc[2]
         bceb+=BS[code]
     try:
-        nceb=bytes_to_ceb(bceb)
+        nceb=from_scratch(bceb)
     except Exception as err:
         print(err,file=sys.stderr)
     else:
@@ -260,8 +233,9 @@ def ceb_to_bytes(ceb,file=None):
                 
         return bceb
     return b
-def cebs_to_print(fichier_exercices,fichier_corrige,cebs_or_nbr_cebs=3,n=6,solver=True,resoluble=True):
-    cebs=cebs_or_nbr_cebs
+
+def to_file(fichier_exercices,fichier_corrige,nbr=3,n=6,solver=True,resoluble=True):
+    cebs=nbr
     if not isinstance(cebs,(list,tuple)):
         new_cebs=[]
         for id in range(cebs):
@@ -304,10 +278,9 @@ def cebs_to_print(fichier_exercices,fichier_corrige,cebs_or_nbr_cebs=3,n=6,solve
     f.close()
     #mypkg.open_file_with_browser(fichier_exercices)
     #mypkg.open_file_with_browser(fichier_corrige)
-    time.sleep(1)
-    os.remove(fichier_exercices)
-    os.remove(fichier_corrige)
-def bytes_to_ceb(ceb):
+
+    
+def from_scratch(ceb):
     b=ceb
     bs=list(map(lambda b:b[0],BS))
     nombres=[]
@@ -348,7 +321,7 @@ def generer_bytes(nbr_de_cebs=1000,file=None,resoluble=True):
         data=generer(6,True,False,True,resoluble=resoluble)
         #print(data[2][0])
         cebs.append((data[0],data[1],data[2][0][0]))
-        b+=ceb_to_bytes(cebs[-1])+BS[-1]
+        b+=to_scratch(cebs[-1])+BS[-1]
     if file:
         f=open(file,"wb")
         f.write(b)
@@ -361,13 +334,7 @@ def generer_bytes(nbr_de_cebs=1000,file=None,resoluble=True):
     #print(cebs)
     #print(cebs)
     return (b,cebs)
-def atest():
-    tt=time.time()
-    try:
-        for result in solve([8, 10, 75, 5, 100, 3],646):pass
-    except Exception as err:raise err
-    finally:
-        print(time.time()-tt)
+
 
 #id=str(random.randrange(1000))
 #cebs_to_print("ceb_ex"+id+".txt","ceb_corr"+id+".txt",24)

@@ -7,42 +7,56 @@ VOYELLES="AEIOUY"
 BS=[]
 ID_BS=[]
 FILE_BS="bs.txt"
+
+import time
+import random
+import os
+
 f=open(FILE_BS,"rb")
 for b in f.read():
     BS.append(bytes([b]))
     ID_BS.append(b)
 f.close()
-import time,random,os,ceb
+
+
 def get_tlm():
+    """Obtenir la liste des mots"""
     f=open(FILE_TLM)
     mots=f.read().splitlines()
     f.close()
     return mots
+
 def renew_tlm_sort():
     mots=get_tlm()
     f=open(FILE_TLM_SORT,"w")
-    f.write("".join(map(lambda mot:"\n"+"".join(sorted(mot))+":"+mot,mots)).upper())
+    f.write(
+        "".join(
+            map(lambda mot:"\n"+"".join(sorted(mot))+":"+mot,mots)).upper())
     f.close()
+    
 try:
     f=open(FILE_TLM_SORT)
 except:
     renew_tlm_sort()
+    
 def tlm_to_scratch():
     mots=get_tlm()
     scratch="".join(map(lambda mot:mot.upper()+";",mots))
     print("Texte généré")
     return scratch
+
 def solve(lettres,n=10,Printer=True):
     global mots_trouves,lmot
     tt=time.time()
-    def info(txt):
+    def info_with_timer(txt):
         ttt=str(int(round(time.time()-tt,3)*1000))
         ttt=ttt[:-3]+"."+ttt[-3:]
         ttt=("0"*(6-len(ttt)))+ttt      
         print("["+ttt+"] "+txt)
+        
     if not Printer:
-        info=lambda *args:None
-    info("Tirage: "+lettres)
+        info_with_timer=lambda *args:None
+    info_with_timer("Tirage: "+lettres)
     mots_trouves=[]
     for _ in range(len(lettres)+1):
         mots_trouves.append([])
@@ -60,7 +74,7 @@ def solve(lettres,n=10,Printer=True):
         l=len(all_lettres[0])
         if l+(n-1)<max or not l:
             return (mots_trouves,max)
-        info("Recherche pour "+str(l)+" lettres...")
+        info_with_timer("Recherche pour "+str(l)+" lettres...")
         for lettres in all_lettres:
             #if lettres==list("ADEINNOSU"):print("CC")
             #print(list(map(len,all_lettres)))
@@ -80,7 +94,7 @@ def solve(lettres,n=10,Printer=True):
                         #if lettres==list("ADEINNOSU"):print("NO")
                         if lmot>max:
                             max=lmot
-                        info(str(lmot)+" lettres: "+mot_trouve)
+                        info_with_timer(str(lmot)+" lettres: "+mot_trouve)
                         mots_trouves[lmot].append(mot_trouve)
             a_lettre=""
             for idx in range(len(lettres)):
@@ -95,6 +109,7 @@ def solve(lettres,n=10,Printer=True):
         #print(new_lettres)
         all_lettres=new_lettres
     print("WW")
+    
 def demo(n_solver=2,alternes_mlpl_dcdl=False):
     lettres=input("Lettres ?")
     if not lettres:
@@ -123,6 +138,7 @@ def generer(nbr_de_voyelles=5,n=10,solver=False,n_solver=2,Printer_solver=True):
             if solver:
                 return (tirage,solve(tirage,n_solver,Printer_solver))
             return tirage
+        
 def generer_bytes(nbr_de_voyelles=5,nbr_de_mlpls=1000,file=None):
     mlpls=[]
     b=b""
@@ -130,7 +146,7 @@ def generer_bytes(nbr_de_voyelles=5,nbr_de_mlpls=1000,file=None):
         print(str(idx)+"/"+str(nbr_de_mlpls))
         data=generer(nbr_de_voyelles,solver=True,n_solver=1,Printer_solver=False)
         mlpls.append((data))
-        b+=mlpl_to_bytes(mlpls[-1])+BS[-1]
+        b+=to_scratch(mlpls[-1])+BS[-1]
     if file:
         f=open(file,"wb")
         f.write(b)
@@ -139,7 +155,9 @@ def generer_bytes(nbr_de_voyelles=5,nbr_de_mlpls=1000,file=None):
         if not input("Tapez Enter pour supprimer le fichier, tapez un texte pour le garder"):
             os.remove(file)
     return (b,mlpls)
-def mlpl_to_bytes(mlpl,file=None):
+
+def to_scratch(mlpl,file=None):
+    """To turn for scratch"""
     """mlpl_to_bytes(("ABCDEFGHIJ",([[],[],[],[],[],[],[],["FICHAGE"]],7)),"YOUR_FILE.txt")"""
     bs=b''
     lettres=sorted(mlpl[0].upper())
@@ -199,7 +217,9 @@ def mlpl_to_bytes(mlpl,file=None):
         f.close()
         #mypkg.open_file_with_browser(file)
     return bs
-def bytes_to_mlpl(bs):
+
+def from_scratch(bs):
+    """From scratch to python"""
     f=open(FILE_TLM_SORT)
     tfts=f.read()
     f.close()
@@ -270,11 +290,6 @@ def bytes_to_mlpl(bs):
         solutions.append([])
     solutions.append(mots)
     return ("".join(lettres),(solutions,max))
-def pmanche():
-    demo(2,True)
-def mots2lafin():
-    demo(1)
-print("")
         #print("YO")
 #tt=time.time()
 #LETTRES="abcdefghij"

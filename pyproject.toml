@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dcdljeu"
-version = "1.0.0"
+version = "2.0.0"
 description = "Un solveur du jeu Compte Est Bon et Mot Le Plus Long issu de Des Chiffres et Des Lettres"
 authors = ["RadoTheProgrammer <rado@arazakar.com>"]
 license = "MIT"

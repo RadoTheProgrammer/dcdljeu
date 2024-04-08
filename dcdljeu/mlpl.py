@@ -28,6 +28,7 @@ def get_tlm():
     return mots
 
 def renew_tlm_sort():
+    """Renouveler le fichier tlm_sort"""
     mots=get_tlm()
     f=open(FILE_TLM_SORT,"w")
     f.write(
@@ -35,18 +36,21 @@ def renew_tlm_sort():
             map(lambda mot:"\n"+"".join(sorted(mot))+":"+mot,mots)).upper())
     f.close()
     
+# Création du fichier tlm_sort si il n'existe pas
 try:
     f=open(FILE_TLM_SORT)
 except:
     renew_tlm_sort()
     
 def tlm_to_scratch():
+    """Convertir en données pour mon projet scratch"""
     mots=get_tlm()
     scratch="".join(map(lambda mot:mot.upper()+";",mots))
     print("Texte généré")
     return scratch
 
-def solve(lettres,n=10,Printer=True):
+def solve(lettres,n=2,verbose=True):
+    """Résoudre un tirage de lettres, l'argument n est jusqu'à combien de groupes de lettres on veut aller"""
     global mots_trouves,lmot
     tt=time.time()
     def info_with_timer(txt):
@@ -55,7 +59,7 @@ def solve(lettres,n=10,Printer=True):
         ttt=("0"*(6-len(ttt)))+ttt      
         print("["+ttt+"] "+txt)
         
-    if not Printer:
+    if not verbose:
         info_with_timer=lambda *args:None
     info_with_timer("Tirage: "+lettres)
     mots_trouves=[]
@@ -111,7 +115,9 @@ def solve(lettres,n=10,Printer=True):
         all_lettres=new_lettres
     print("WW")
     
-def demo(n_solver=2,alternes_mlpl_dcdl=False):
+def demo(n_solver=2):
+    """Démonstration du programme de résolution de lettres
+    l'aisser vide pour générer un tirage aléatoire"""
     lettres=input("Lettres ?")
     if not lettres:
         lettres=generer()
@@ -120,6 +126,7 @@ def demo(n_solver=2,alternes_mlpl_dcdl=False):
     d=solve(lettres,n_solver)
     
 def generer(nbr_de_voyelles=5,n=10,solver=False,n_solver=2,Printer_solver=True):
+    """Générer un tirage de lettres"""
     if nbr_de_voyelles=="random":
         nbr_de_voyelles=random.randrange(3,7)
     #print("nn",n_solver)
@@ -141,6 +148,7 @@ def generer(nbr_de_voyelles=5,n=10,solver=False,n_solver=2,Printer_solver=True):
             return tirage
         
 def generer_bytes(nbr_de_voyelles=5,nbr_de_mlpls=1000,file=None):
+    """Générer plusieurs mlpls et les mettre dans un fichier"""
     mlpls=[]
     b=b""
     for idx in range(nbr_de_mlpls):

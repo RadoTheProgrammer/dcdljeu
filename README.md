@@ -37,4 +37,7 @@ mlpl.demo()
 
 ## Projets sur scratch
 
-Jetez aussi un coup d'oeil à mes projets scratch https://scratch.mit.edu/projects/529613029/
+Jetez aussi un coup d'oeil à mes projets scratch 
+
+* jouer au [compte est bon](https://scratch.mit.edu/projects/529613029/)
+* [au mot le plus long](https://scratch.mit.edu/projects/537035213/)

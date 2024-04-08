@@ -12,6 +12,7 @@ f.close()
 OPS="+-x/"
 NOMBRES_POSSIBLES=(1,2,3,4,5,6,7,8,9,10,25,50,75,100)
 def calculate(cn1,op,cn2):
+    """Faire l'opération donnée par op entre cn1 et cn2."""
     if op=="+":
         return cn1+cn2
     elif op=="-":
@@ -26,7 +27,8 @@ def calculate(cn1,op,cn2):
     else:
         raise ValueError("Invalid op :"+str(op))
     
-def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,avoid_doubles=True,shortest_sol=True):
+def solve(nombres,nombre_a_trouver,verbose=True,return_one_solution=False,allow_float=False,avoid_doubles=True,shortest_sol=True):
+    """Résoudre le compte est bon avec les nombres donnés et le nombre à trouver."""
     try:
         tt=time.time()
         def info(txt):
@@ -40,8 +42,8 @@ def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,a
         if not verbose:
             info=lambda *args:None
         nts=[]
-        if nat in nombres:
-            s=str(nat)+"="+str(nat)
+        if nombre_a_trouver in nombres:
+            s=str(nombre_a_trouver)+"="+str(nombre_a_trouver)
             print("Le Compte Est Bon : "+s)
             return [s]
         nombres=sorted(nombres)
@@ -49,7 +51,7 @@ def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,a
         pistes=[([],nombres)]
         solutions=[]
         npistes=[]
-        m_a=nat
+        m_a=nombre_a_trouver
         a=1
         while True:
             npistes=[]
@@ -73,7 +75,7 @@ def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,a
                             resultat=int(resultat)
                                 
                             ncal=cal+[str(n1)+op+str(n2)+"="+str(resultat)]
-                            nma=abs(resultat-nat)
+                            nma=abs(resultat-nombre_a_trouver)
                             npistes.append((ncal,nbr3+[resultat]))
                             if nma<=m_a:
                                 if nma<m_a:
@@ -102,6 +104,8 @@ def solve(nombres,nat,verbose=True,return_one_solution=False,allow_float=False,a
         return (solutions,nts)
     
 def generer(n=6,solver=False,printer_solver=True,return_one_solution_solver=False,resoluble=False):
+    """Générer un tirage de nombres et un nombre à trouver.
+    n est le nombre de nombres à générer."""
     n25=random.randrange(100)<71
     nondouble=random.randrange(100)<52
     nat=random.randrange(101,1000)
@@ -146,7 +150,8 @@ def generer(n=6,solver=False,printer_solver=True,return_one_solution_solver=Fals
             pass
         
 def demo(times="inf"):
-
+    """Démonstration du programme de résolution de nombres
+    Laisser vide pour générer un tirage aléatoire."""
     if times=="inf":times=99999
     n=0
     while True:
@@ -183,6 +188,7 @@ def demo(times="inf"):
 
 
 def to_scratch(ceb,file=None):
+    """Convertir en données pour mon projet scratch"""
     bceb=b""
     pair=[]
     nbr_pairs=0
@@ -235,6 +241,7 @@ def to_scratch(ceb,file=None):
     return b
 
 def to_file(fichier_exercices,fichier_corrige,nbr=3,n=6,solver=True,resoluble=True):
+    """Retourner le pdf avec les ceb donnés."""
     cebs=nbr
     if not isinstance(cebs,(list,tuple)):
         new_cebs=[]
@@ -281,6 +288,7 @@ def to_file(fichier_exercices,fichier_corrige,nbr=3,n=6,solver=True,resoluble=Tr
 
     
 def from_scratch(ceb):
+    """Convertir depuis les données de mon projet scratch"""
     b=ceb
     bs=list(map(lambda b:b[0],BS))
     nombres=[]
@@ -314,6 +322,7 @@ def from_scratch(ceb):
         solution.append(str(cn1)+op+str(cn2)+"="+str(resultat))
     return (nombres,nat,solution)
 def generer_bytes(nbr_de_cebs=1000,file=None,resoluble=True):
+    """Convertir plusieurs ceb en bytes et les mettre dans un fichier pour mon projet scratch"""
     cebs=[]
     b=b""
     for idx in range(nbr_de_cebs):
